@@ -3,8 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-certs/*
-!certs/.gitignore
+certs/*.crt
+certs/*.key
 ### STS ###
 .apt_generated
 .classpath
