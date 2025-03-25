@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: app
+    image: spring/whatsapp
+    restart: always
+    ports:
+      - "8081:8081"
+    networks:
+      - app-network
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/chatapplication
+
+  mongodb:
+    image: 'mongo:latest'
+    environment:
+      - 'MONGO_INITDB_DATABASE=mydatabase'
+      - 'MONGO_INITDB_ROOT_PASSWORD=secret'
+      - 'MONGO_INITDB_ROOT_USERNAME=root'
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+  nginx:
+    image: 'nginx'
+    container_name: reverse_proxy_nginx
+    restart: always
+    volumes:
+      - ./conf:/etc/nginx/conf.d
+      - ./certs:/etc/nginx/conf.d/ssl
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
