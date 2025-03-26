@@ -6,7 +6,7 @@ services:
     image: spring/whatsapp
     restart: always
     ports:
-      - "8081:8081"
+      - "8081:8089"
     networks:
       - app-network
     environment:

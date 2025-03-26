@@ -29,6 +29,9 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+
+			<org.mapstruct.version>1.6.3</org.mapstruct.version>
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -80,10 +83,34 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+
+
+
+	<!-- for socker io dependency -->
+		<dependency>
+			<groupId>com.corundumstudio.socketio</groupId>
+			<artifactId>netty-socketio</artifactId>
+			<version>2.0.13</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${org.mapstruct.version}</version>
+		</dependency>
 	</dependencies>
+
 
 	<build>
 		<plugins>
+
+				<plugin>
+					<groupId>org.graalvm.buildtools</groupId>
+					<artifactId>native-maven-plugin</artifactId>
+				</plugin>
+
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -92,6 +119,11 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
+						</path>
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>${org.mapstruct.version}</version>
 						</path>
 						<path>
 							<groupId>org.springframework.boot</groupId>
