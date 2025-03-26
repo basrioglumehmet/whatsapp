@@ -25,7 +25,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String login(LoginRequest loginRequest) {
-return "";
+        return "";
     }
 
     @Override
@@ -36,4 +36,5 @@ return "";
         Account registeredAccount = accountRepo.save(account);
         return usermapper.mapAccountToRegisterAccountResponse(registeredAccount);
     }
+
 }

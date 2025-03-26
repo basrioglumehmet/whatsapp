@@ -15,14 +15,13 @@ import java.util.List;
 public class Account implements UserDetails {
     @Id
     private String id;
-    private String firstName;
-    private String lastName;
+
     private String username;
     private String email;
     private String phone;
     private String password;
     private List<Role> role;
-
+    private Profile profile;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role;
