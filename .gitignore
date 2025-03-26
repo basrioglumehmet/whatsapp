@@ -33,3 +33,5 @@ build/
 ### VS Code ###
 .vscode/
 src/main/resources/application.properties
+certs/nginx-selfsigned.crt
+certs/nginx-selfsigned.key
