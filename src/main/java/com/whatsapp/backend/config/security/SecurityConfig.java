@@ -1,6 +1,7 @@
 package com.whatsapp.backend.config.security;
 
 
+import com.whatsapp.backend.common.JwtAuthFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +29,7 @@ public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
-
+    private final JwtAuthFilter jwtAuthFilter;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
         security.csrf(AbstractHttpConfigurer::disable) // CSRF'yi devre dışı bırakıyoruz (prod ortamında dikkat).
@@ -39,34 +40,24 @@ public class SecurityConfig {
                         .anyRequest().authenticated()) // Herhangi bir istek authenticated olmalı.
 
                 .httpBasic(Customizer.withDefaults()); // HTTP Basic ile giriş.
-       // security.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-        security.authenticationProvider(authenticationProvider()); // Custom authentication provider'ı tanıtıyoruz.
-        security.sessionManagement(x -> x.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)); // Stateless oturum yönetimi.
+       security.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        security
+                /* JWT, stateless bir yapı olduğu için kimlik doğrulama işlemi için kullanılacak.
+              Kullanıcı doğrulama işlemi için JWT kullanacağız, ancak mesaj şifreleme için SHA-256 kullanılacak.
+              Bu nedenle, kimlik doğrulama için kullanılan `DaoAuthenticationProvider` ve ilgili filter'ı kaldırdım.
+              JWT, stateless olması nedeniyle sunucu üzerinde oturum bilgisi tutmadan sadece token ile doğrulama işlemi yapılacak. */
+
+
+                .sessionManagement(x
+                        -> x.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
 
         return security.build();
     }
 
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-      // provider.setPasswordEncoder(customAesEncoder);
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder);
-        return provider;
-    }
 
 
-    //Authenticaton manager arkaplanda kendi işini yapıyor fakat biz token bazlı yapmak istediğimiz için benim handle etmeme izin ver diyoruz.
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager(); //Authentication Manager getirmenin ilk yoludur
-    }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return customAesEncoder;
-//    }
 
 }
 

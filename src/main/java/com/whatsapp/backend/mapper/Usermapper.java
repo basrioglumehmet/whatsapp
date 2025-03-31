@@ -6,7 +6,7 @@ import com.whatsapp.backend.dto.RegisterAccountResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface Usermapper {
     Usermapper INSTANCE = Mappers.getMapper(Usermapper.class);
     Account mapRegisterRequestToAccount(RegisterAccountRequest registerAccountRequest);

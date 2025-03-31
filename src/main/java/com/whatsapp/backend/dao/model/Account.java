@@ -1,5 +1,7 @@
 package com.whatsapp.backend.dao.model;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -17,6 +19,7 @@ public class Account implements UserDetails {
     private String id;
 
     private String username;
+    @Email
     private String email;
     private String phone;
     private String password;

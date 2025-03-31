@@ -1,4 +1,4 @@
-package com.whatsapp.backend.security;
+package com.whatsapp.backend.config.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
