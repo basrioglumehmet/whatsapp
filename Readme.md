@@ -1,6 +1,4 @@
-Tabii! İşte daha güzel ve emoji eklenmiş şekilde bir **README** dosyası önerisi:
 
----
 
 # 📦 **Docker ve Uygulama Kurulum Rehberi**
 
@@ -90,6 +88,3 @@ application.security.iterations=3
 
 Bu README dosyası, uygulamanızın doğru bir şekilde çalışması için gerekli adımları ve konfigürasyonları sunmaktadır. Herhangi bir sorunuz varsa, lütfen çekinmeden bize ulaşın! 😊
 
----
-
-Umarım bu format sizin için uygun olur! Eğer başka bir ekleme veya değişiklik isterseniz, bana bildirebilirsiniz. 🚀
