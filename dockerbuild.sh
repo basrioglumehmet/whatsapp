@@ -5,7 +5,7 @@ IMAGE_NAME="spring/whatsapp"
 
 echo "🚀 Docker imajı oluşturuluyor: $IMAGE_NAME..."
 
-mvn clean install
+./gradlew build
 # Docker imajını oluştur
 docker build --no-cache -t $IMAGE_NAME .
 

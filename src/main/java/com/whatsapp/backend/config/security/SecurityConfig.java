@@ -39,7 +39,7 @@ public class SecurityConfig {
                         .requestMatchers("/users/**").permitAll()
                         .anyRequest().authenticated()) // Herhangi bir istek authenticated olmalı.
 
-                .httpBasic(Customizer.withDefaults()); // HTTP Basic ile giriş.
+                .httpBasic(Customizer.withDefaults()).formLogin(formlogin->formlogin.disable());// HTTP Basic ile giriş.
        security.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         security
                 /* JWT, stateless bir yapı olduğu için kimlik doğrulama işlemi için kullanılacak.

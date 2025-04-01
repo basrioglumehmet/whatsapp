@@ -3,12 +3,9 @@ package com.whatsapp.backend.common;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -25,12 +22,9 @@ public class Jwtutil {
 
         Date currentDate = new Date();
         Date expirationDate = new Date(currentDate.getTime() + expiration * 1000);
-        String token = Jwts.builder().setSubject(username)
-                .setIssuedAt(currentDate)
-                .setExpiration(expirationDate)
+        return Jwts.builder().subject(username).issuedAt(currentDate).expiration(expirationDate)
                 .signWith(key())
                 .compact();
-        return token;
 
     }
 
@@ -47,7 +41,7 @@ public class Jwtutil {
         {
             return    Jwts.parser()
                     .verifyWith((SecretKey) key())
-                    .build().parseClaimsJws(key)
+                    .build().parseEncryptedClaims(key)
                     .getPayload().getSubject();
         }catch (JwtException e)
         {
@@ -56,9 +50,9 @@ public class Jwtutil {
         }
 
     }
-    public boolean validateToken(String token, UserDetails userDetails){
+    public boolean validateToken(String token){
         try{
-            Jwts.parser().verifyWith((SecretKey) key()).build().parseClaimsJws(token);
+            Jwts.parser().verifyWith((SecretKey) key()).build().parseSignedClaims(token);
             return true;
         }catch(MalformedJwtException e){
             logger.error("Invalid JWT"+e.getMessage());
@@ -72,15 +66,6 @@ public class Jwtutil {
             logger.error("Illegal JWT"+e.getMessage());
         }
         return false;
-    }
-
-    public String getJwtFromHeader(HttpServletRequest request){
-        String header = request.getHeader("Authorization");
-        logger.debug("header:"+header);
-        if (header != null && header.startsWith("Bearer ")) {
-            return header.substring(7);
-        }
-        return null;
     }
 
 }
